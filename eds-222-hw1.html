@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Kaiju Morquecho">
+<meta name="dcterms.date" content="2024-10-14">
 
 <title>EDS 222: Homework 1</title>
 <style>
@@ -126,7 +127,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">Invalid Date</p>
+      <p class="date">October 14, 2024</p>
     </div>
   </div>
   
@@ -180,9 +181,11 @@ Warning
 </div>
 <div class="callout-body-container callout-body">
 <p>There’s an implicit assumption about file organization in the code above. What is it? How can you make the code work?</p>
+</div>
+</div>
 <section id="answer" class="level4">
 <h4 class="anchored" data-anchor-id="answer"><strong>Answer:</strong></h4>
-<p>The implicit assumption about file organization in the code above is that I will keep my data inside my working directory, in a folder called “data”, and that this rproj will be my working directory.</p>
+<p>The implicit assumption about file organization in the code above is that I will keep my data inside a subfolder called “data”</p>
 </section>
 <section id="code" class="level4">
 <h4 class="anchored" data-anchor-id="code"><strong>Code:</strong></h4>
@@ -201,12 +204,10 @@ Warning
 <pre><code>[1] 0</code></pre>
 </div>
 </div>
-</section>
-</div>
-</div>
 <ol type="1">
 <li>These dataframes have one row per pollution observation. How many pollution records are in each dataset?</li>
 </ol>
+</section>
 <section id="answer-1" class="level4">
 <h4 class="anchored" data-anchor-id="answer-1"><strong>Answer:</strong></h4>
 <p>There are 5488 pollution records in crowdsourced and 1960 poluttion records in govt. Using str() I can see summary info of my objects such as the classes, the # of obs, # of variables etc.</p>
@@ -268,6 +269,8 @@ Attaching package: 'dplyr'</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 14</code></pre>
 </div>
+</div>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>govt <span class="sc">%&gt;%</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(longitude, latitude) <span class="sc">%&gt;%</span> </span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">id =</span> <span class="fu">cur_group_id</span>(),</span>
@@ -365,39 +368,25 @@ Tip
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># crowdsourced min and max</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>crowdsourced <span class="sc">%&gt;%</span>  </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">min</span>(PM), <span class="at">na.rm =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">min_crowd =</span> <span class="fu">min</span>(PM), </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">max_crowd =</span> <span class="fu">max</span>(PM)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
-  `min(PM)` na.rm
-      &lt;dbl&gt; &lt;lgl&gt;
-1        20 TRUE </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>crowdsourced <span class="sc">%&gt;%</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">max</span>(PM), <span class="at">na.rm =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 2
-  `max(PM)` na.rm
-      &lt;dbl&gt; &lt;lgl&gt;
-1       120 TRUE </code></pre>
+  min_crowd max_crowd
+      &lt;dbl&gt;     &lt;dbl&gt;
+1        20       120</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># govt min and max</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>govt <span class="sc">%&gt;%</span> </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">min</span>(PM), <span class="at">na.rm =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># govt min and max</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>govt <span class="sc">%&gt;%</span> </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">min_govt =</span> <span class="fu">min</span>(PM), </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">max_govt =</span> <span class="fu">max</span>(PM))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
-  `min(PM)` na.rm
-      &lt;dbl&gt; &lt;lgl&gt;
-1        15 TRUE </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>govt <span class="sc">%&gt;%</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">max</span>(PM), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 2
-  `max(PM)` na.rm
-      &lt;dbl&gt; &lt;lgl&gt;
-1        65 TRUE </code></pre>
+  min_govt max_govt
+     &lt;dbl&gt;    &lt;dbl&gt;
+1       15       65</code></pre>
 </div>
 </div>
 <ol start="2" type="1">
@@ -429,6 +418,19 @@ Tip
 </section>
 <section id="question-6" class="level3">
 <h3 class="anchored" data-anchor-id="question-6">Question 6</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is for 6.2</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">#strat data &lt;- pooled_obs %&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#mutate(latitude_strata = round(latitude,2)) %&gt;%</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#group_by(latitude_strata)</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co"># we should try to avoid groups just ligering around; you can ungroup </span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co">#then you do slide_sample(200, bc 5 stratta )</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co">#or can use cut_width to cut up variables into certain width-sized bins </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Given the recent corruption in air quality reporting, the Prime Minister of Pakistan has hired an independent body of environmental data scientists to create an unbiased estimate of the mean PM 2.5 across Lahore using some combination of both government stations and crowd sourced observations.</p>
 <p>NASA’s satellite data indicates that the average PM across Lahore is 89.2 <span class="math inline">\(\mu g/m^3\)</span>. Since this is the most objective estimate of population-level PM 2.5 available, your goal is to match this mean as closely as possible by creating a new ground-level monitoring sample that draws on both the government and crowd-sourced samples.</p>
 <section id="question-6.1" class="level4">

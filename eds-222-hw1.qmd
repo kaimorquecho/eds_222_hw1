@@ -1,6 +1,6 @@
 ---
 title: "EDS 222: Homework 1"
-date: "Assigned ???, due ???"
+date: 10/14/24
 author: Kaiju Morquecho
 ---
 
@@ -35,9 +35,10 @@ govt <- readRDS(file.path("data", "airpol-PK-govt.RDS"))
 
 ::: callout-warning
 There's an implicit assumption about file organization in the code above. What is it? How can you make the code work? 
+:::
 
 #### __Answer:__
-The implicit assumption about file organization in the code above is that I will keep my data inside my working directory, in a folder called "data", and that this rproj will be my working directory. 
+The implicit assumption about file organization in the code above is that I will keep my data inside a subfolder called "data"
 
 #### __Code:__
 
@@ -50,7 +51,7 @@ govt <- readRDS(file.path("data", "airpol-PK-govt.RDS"))
 sum(is.na(crowdsourced))
 sum(is.na(govt))
 ```
-:::
+
 
 1.  These dataframes have one row per pollution observation. How many pollution records are in each dataset?
 
@@ -73,7 +74,6 @@ There are 14 unique monitors in crowdsourced and 5 in govt
 #### __Code:__
 
 ```{r}
-
 # load the library "dplyr"
 library(dplyr)
 
@@ -84,15 +84,15 @@ crowdsourced %>%
   summarize(id = cur_group_id(),
             .groups = "drop") %>% 
   nrow()
+```
 
+```{r}
 govt %>%
   group_by(longitude, latitude) %>% 
   summarize(id = cur_group_id(),
             .groups = "drop") %>% 
   nrow()
-
 ```
-
 
 ::: callout-tip
 `group_by(longitude,latitude)` and `cur_group_id()` in `dplyr` will help in creating a unique identifier for each (longitude, latitude) pair.
@@ -159,22 +159,15 @@ govt %>%
 ```{r}
 # crowdsourced min and max
 crowdsourced %>%  
-  summarize(min(PM), na.rm = TRUE) 
-
-crowdsourced %>%
-  summarize(max(PM), na.rm = TRUE) 
+  summarize(min_crowd = min(PM), 
+            max_crowd = max(PM)) 
 ```
 
 ```{r}
 # govt min and max
 govt %>% 
-  summarize(min(PM), na.rm = TRUE) 
-govt %>%
-  summarize(max(PM), na.rm = TRUE)
-```
-
-```{r}
-
+  summarize(min_govt = min(PM), 
+            max_govt = max(PM))
 ```
 
 
@@ -194,6 +187,20 @@ Use the location of the air pollution stations for both of the sampling strategi
 The local newspaper in Pakistan, *Dawn*, claims that the government is misreporting the air pollution levels in Lahore. Do the locations of monitors in question 4, relative to crowd-sourced monitors, suggest anything about a possible political bias?
 
 ### Question 6
+
+```{r}
+# this is for 6.2
+#strat data <- pooled_obs %>%
+  #mutate(latitude_strata = round(latitude,2)) %>%
+  #group_by(latitude_strata)
+
+# we should try to avoid groups just ligering around; you can ungroup 
+
+#then you do slide_sample(200, bc 5 stratta )
+
+
+#or can use cut_width to cut up variables into certain width-sized bins 
+```
 
 Given the recent corruption in air quality reporting, the Prime Minister of Pakistan has hired an independent body of environmental data scientists to create an unbiased estimate of the mean PM 2.5 across Lahore using some combination of both government stations and crowd sourced observations.
 
