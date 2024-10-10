@@ -1,7 +1,7 @@
 ---
 title: "EDS 222: Homework 1"
 date: "Assigned ???, due ???"
-author: "Your Name Here"
+author: Kaiju Morquecho
 ---
 
 ## Background
@@ -34,11 +34,65 @@ govt <- readRDS(file.path("data", "airpol-PK-govt.RDS"))
 ```
 
 ::: callout-warning
-There's an implicit assumption about file organization in the code above. What is it? How can you make the code work?
+There's an implicit assumption about file organization in the code above. What is it? How can you make the code work? 
+
+#### __Answer:__
+The implicit assumption about file organization in the code above is that I will keep my data inside my working directory, in a folder called "data", and that this rproj will be my working directory. 
+
+#### __Code:__
+
+```{r}
+# Reading in data
+crowdsourced <- readRDS(file.path("data", "airpol-PK-crowdsourced.RDS"))
+govt <- readRDS(file.path("data", "airpol-PK-govt.RDS"))
+
+# Checking for NAs
+sum(is.na(crowdsourced))
+sum(is.na(govt))
+```
 :::
 
 1.  These dataframes have one row per pollution observation. How many pollution records are in each dataset?
+
+#### __Answer:__
+There are 5488 pollution records in crowdsourced and 1960 poluttion records in govt. Using str() I can see summary info of my objects such as the classes, the # of obs, # of variables etc. 
+
+#### __Code:__
+
+```{r}
+str(crowdsourced) # str shows me a summary/a preview of the structure of my desired object 
+str(govt)
+```   
+
+
 2.  Each monitor is located at a unique latitude and longitude location. How many unique monitors are in each dataset?
+
+#### __Answer:__
+There are 14 unique monitors in crowdsourced and 5 in govt
+
+#### __Code:__
+
+```{r}
+
+# load the library "dplyr"
+library(dplyr)
+
+# piping to data, grouping by lat & long, create new col = id of each grouping, # of groupings = # of monitors
+
+crowdsourced %>%
+  group_by(longitude, latitude) %>% 
+  summarize(id = cur_group_id(),
+            .groups = "drop") %>% 
+  nrow()
+
+govt %>%
+  group_by(longitude, latitude) %>% 
+  summarize(id = cur_group_id(),
+            .groups = "drop") %>% 
+  nrow()
+
+```
+
 
 ::: callout-tip
 `group_by(longitude,latitude)` and `cur_group_id()` in `dplyr` will help in creating a unique identifier for each (longitude, latitude) pair.
@@ -50,13 +104,80 @@ The goal of pollution monitoring in Lahore is to measure the average pollution c
 
 1.  What is the *population* in this setting? Please be precise.
 
+#### __Answer:__
+The population is the city of Lahore, Pakistan.
+
 2.  What are the *samples* in this setting? Please be precise.
 
+#### __Answer:__
+There are two samples - One sample are the households in Lahore who have volunteered to install a monitor in their home, and the other is the locations in Lahore that the government has chosen to place monitors at. 
+
 3.  These samples were not randomly collected from across locations in Lahore. Given the sampling approaches described above, discuss possible biases that may enter when we use these samples to construct estimates of population parameters.
+
+#### __Answer:__
+The sampling methods introduce several sampling biases. The samples are not be representative of the population. 
+
+1) Self-selection bias. The crowdsourced data sample comes from homes who have selected to participate in monitoring air pollution by having a monitor in their home. Therefore, the sample of participants likely has very specific characteristics - perhaps the monitor requires wifi connection, or it requires the household to have a computer. As a result, the data will come from areas of Lahore where people can afford to have wifi or a computer or electricity. Rural areas will most likely be misrepresented. The population will not be represented by the sample. 
+
+2) Exclusion bias. Given that government officials have been observed to place monitors stratigically in areas with cleaner air to obtain more favorable data, significant portions of the population are being excluded. Areas where air is "dirtier" are being excluded from the sample and therefore misrepresenting the population. 
 
 ### Question 3
 
 1.  For both the government data and the crowd-sourced data, report the sample mean, sample minimum, and sample maximum value of PM 2.5 (measured in $\mu g/m^3$).
+
+#### __Answer:__
+__crowdsourced__:
+
+sample mean = 70.2008 $\mu g/m^3$
+
+min = 20 $\mu g/m^3$
+
+max = 120 $\mu g/m^3$      
+
+__govt__:
+
+sample mean = 39.64694 $\mu g/m^3$
+
+min = 15 $\mu g/m^3$
+
+max = 65 $\mu g/m^3$  
+
+#### __Code:__
+
+```{r}
+# crowdsourced mean
+#  pipe to df, use summarize function, apply mean() to col "PM"
+crowdsourced %>%
+  summarize(mean(PM), na.rm = TRUE)
+```
+```{r}
+# govt mean
+govt %>% 
+  summarize(mean(PM), na.rm = TRUE) 
+```
+
+```{r}
+# crowdsourced min and max
+crowdsourced %>%  
+  summarize(min(PM), na.rm = TRUE) 
+
+crowdsourced %>%
+  summarize(max(PM), na.rm = TRUE) 
+```
+
+```{r}
+# govt min and max
+govt %>% 
+  summarize(min(PM), na.rm = TRUE) 
+govt %>%
+  summarize(max(PM), na.rm = TRUE)
+```
+
+```{r}
+
+```
+
+
 2.  Discuss any key differences that you see between these two samples.
 3.  Are the differences in mean pollution as expected, given what we know about the sampling strategies?
 
