@@ -37,7 +37,6 @@ govt <- readRDS(file.path("data", "airpol-PK-govt.RDS"))
 There's an implicit assumption about file organization in the code above. What is it? How can you make the code work? 
 :::
 
-#### __Answer:__
 The implicit assumption about file organization in the code above is that I will keep my data inside a subfolder called "data"
 
 #### __Code:__
@@ -55,7 +54,6 @@ sum(is.na(govt))
 
 1.  These dataframes have one row per pollution observation. How many pollution records are in each dataset?
 
-#### __Answer:__
 There are 5488 pollution records in crowdsourced and 1960 poluttion records in govt. Using str() I can see summary info of my objects such as the classes, the # of obs, # of variables etc. 
 
 #### __Code:__
@@ -68,7 +66,6 @@ str(govt)
 
 2.  Each monitor is located at a unique latitude and longitude location. How many unique monitors are in each dataset?
 
-#### __Answer:__
 There are 14 unique monitors in crowdsourced and 5 in govt
 
 #### __Code:__
@@ -104,17 +101,14 @@ The goal of pollution monitoring in Lahore is to measure the average pollution c
 
 1.  What is the *population* in this setting? Please be precise.
 
-#### __Answer:__
 The population is the city of Lahore, Pakistan.
 
 2.  What are the *samples* in this setting? Please be precise.
 
-#### __Answer:__
 There are two samples - One sample are the households in Lahore who have volunteered to install a monitor in their home, and the other is the locations in Lahore that the government has chosen to place monitors at. 
 
 3.  These samples were not randomly collected from across locations in Lahore. Given the sampling approaches described above, discuss possible biases that may enter when we use these samples to construct estimates of population parameters.
 
-#### __Answer:__
 The sampling methods introduce several sampling biases. The samples are not be representative of the population. 
 
 1) Self-selection bias. The crowdsourced data sample comes from homes who have selected to participate in monitoring air pollution by having a monitor in their home. Therefore, the sample of participants likely has very specific characteristics - perhaps the monitor requires wifi connection, or it requires the household to have a computer. As a result, the data will come from areas of Lahore where people can afford to have wifi or a computer or electricity. Rural areas will most likely be misrepresented. The population will not be represented by the sample. 
@@ -125,7 +119,6 @@ The sampling methods introduce several sampling biases. The samples are not be r
 
 1.  For both the government data and the crowd-sourced data, report the sample mean, sample minimum, and sample maximum value of PM 2.5 (measured in $\mu g/m^3$).
 
-#### __Answer:__
 __crowdsourced__:
 
 sample mean = 70.2008 $\mu g/m^3$
@@ -172,6 +165,8 @@ govt %>%
 
 
 2.  Discuss any key differences that you see between these two samples.
+ - 
+
 3.  Are the differences in mean pollution as expected, given what we know about the sampling strategies?
 
 ### Question 4

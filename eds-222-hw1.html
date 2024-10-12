@@ -183,10 +183,7 @@ Warning
 <p>There’s an implicit assumption about file organization in the code above. What is it? How can you make the code work?</p>
 </div>
 </div>
-<section id="answer" class="level4">
-<h4 class="anchored" data-anchor-id="answer"><strong>Answer:</strong></h4>
 <p>The implicit assumption about file organization in the code above is that I will keep my data inside a subfolder called “data”</p>
-</section>
 <section id="code" class="level4">
 <h4 class="anchored" data-anchor-id="code"><strong>Code:</strong></h4>
 <div class="cell">
@@ -207,9 +204,6 @@ Warning
 <ol type="1">
 <li>These dataframes have one row per pollution observation. How many pollution records are in each dataset?</li>
 </ol>
-</section>
-<section id="answer-1" class="level4">
-<h4 class="anchored" data-anchor-id="answer-1"><strong>Answer:</strong></h4>
 <p>There are 5488 pollution records in crowdsourced and 1960 poluttion records in govt. Using str() I can see summary info of my objects such as the classes, the # of obs, # of variables etc.</p>
 </section>
 <section id="code-1" class="level4">
@@ -235,9 +229,6 @@ Warning
 <ol start="2" type="1">
 <li>Each monitor is located at a unique latitude and longitude location. How many unique monitors are in each dataset?</li>
 </ol>
-</section>
-<section id="answer-2" class="level4">
-<h4 class="anchored" data-anchor-id="answer-2"><strong>Answer:</strong></h4>
 <p>There are 14 unique monitors in crowdsourced and 5 in govt</p>
 </section>
 <section id="code-2" class="level4">
@@ -301,36 +292,25 @@ Tip
 <ol type="1">
 <li>What is the <em>population</em> in this setting? Please be precise.</li>
 </ol>
-<section id="answer-3" class="level4">
-<h4 class="anchored" data-anchor-id="answer-3"><strong>Answer:</strong></h4>
 <p>The population is the city of Lahore, Pakistan.</p>
 <ol start="2" type="1">
 <li>What are the <em>samples</em> in this setting? Please be precise.</li>
 </ol>
-</section>
-<section id="answer-4" class="level4">
-<h4 class="anchored" data-anchor-id="answer-4"><strong>Answer:</strong></h4>
 <p>There are two samples - One sample are the households in Lahore who have volunteered to install a monitor in their home, and the other is the locations in Lahore that the government has chosen to place monitors at.</p>
 <ol start="3" type="1">
 <li>These samples were not randomly collected from across locations in Lahore. Given the sampling approaches described above, discuss possible biases that may enter when we use these samples to construct estimates of population parameters.</li>
 </ol>
-</section>
-<section id="answer-5" class="level4">
-<h4 class="anchored" data-anchor-id="answer-5"><strong>Answer:</strong></h4>
 <p>The sampling methods introduce several sampling biases. The samples are not be representative of the population.</p>
 <ol type="1">
 <li><p>Self-selection bias. The crowdsourced data sample comes from homes who have selected to participate in monitoring air pollution by having a monitor in their home. Therefore, the sample of participants likely has very specific characteristics - perhaps the monitor requires wifi connection, or it requires the household to have a computer. As a result, the data will come from areas of Lahore where people can afford to have wifi or a computer or electricity. Rural areas will most likely be misrepresented. The population will not be represented by the sample.</p></li>
 <li><p>Exclusion bias. Given that government officials have been observed to place monitors stratigically in areas with cleaner air to obtain more favorable data, significant portions of the population are being excluded. Areas where air is “dirtier” are being excluded from the sample and therefore misrepresenting the population.</p></li>
 </ol>
 </section>
-</section>
 <section id="question-3" class="level3">
 <h3 class="anchored" data-anchor-id="question-3">Question 3</h3>
 <ol type="1">
 <li>For both the government data and the crowd-sourced data, report the sample mean, sample minimum, and sample maximum value of PM 2.5 (measured in <span class="math inline">\(\mu g/m^3\)</span>).</li>
 </ol>
-<section id="answer-6" class="level4">
-<h4 class="anchored" data-anchor-id="answer-6"><strong>Answer:</strong></h4>
 <p><strong>crowdsourced</strong>:</p>
 <p>sample mean = 70.2008 <span class="math inline">\(\mu g/m^3\)</span></p>
 <p>min = 20 <span class="math inline">\(\mu g/m^3\)</span></p>
@@ -339,7 +319,6 @@ Tip
 <p>sample mean = 39.64694 <span class="math inline">\(\mu g/m^3\)</span></p>
 <p>min = 15 <span class="math inline">\(\mu g/m^3\)</span></p>
 <p>max = 65 <span class="math inline">\(\mu g/m^3\)</span></p>
-</section>
 <section id="code-3" class="level4">
 <h4 class="anchored" data-anchor-id="code-3"><strong>Code:</strong></h4>
 <div class="cell">
@@ -391,6 +370,11 @@ Tip
 </div>
 <ol start="2" type="1">
 <li>Discuss any key differences that you see between these two samples.</li>
+</ol>
+<ul>
+<li></li>
+</ul>
+<ol start="3" type="1">
 <li>Are the differences in mean pollution as expected, given what we know about the sampling strategies?</li>
 </ol>
 </section>
