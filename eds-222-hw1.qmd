@@ -165,17 +165,40 @@ govt %>%
 
 
 2.  Discuss any key differences that you see between these two samples.
- - 
+
+The crowdsourced data contains far more obs than the govt data, and it's collected using 14 different monitors, as opposed to 5 for govt data.These differences in data gathering are observable in the summary statistics of the samples. The crowdsourced data (min= 20, max=120) has a larger range than govt (min=15, max=65) data, likely because crowdsourced data is composed of more observations and coming from more monitors than the govt data, leading to greater variability. Furthermore,the crowdsourced mean (70.2008) is significantly bigger than that of the govt (39.64694). 
 
 3.  Are the differences in mean pollution as expected, given what we know about the sampling strategies?
+
+Given what we know, the differences in mean pollution are exactly as we expected. Crowdsourced mean (70.2008) is bigger than that of the govt (39.64694) not only for the reasons mentioned above (more observations + more data sources/monitors) but also because of the sampling bias I discussed earlier. The govt data has a tigher range and the values come from monitors strategically placed in locations that government officials believed to be favorable (less polluted, cleaner air), which explains why its mean is smaller and the data less widespread. 
 
 ### Question 4
 
 Use the location of the air pollution stations for both of the sampling strategies to generate a map showing locations of each observation. Color the two samples with different colors to highlight how each sample obtains measurements from different parts of the city.
 
+
 ::: callout-tip
 `longitude` indicates location in the *x*-direction, while `latitude` indicates location in the *y*-direction. With `ggplot2` this should be nothing fancy. We'll do more spatial data in `R` later in the course.
 :::
+
+
+```{r}
+# load ggplot library
+library(ggplot2)
+
+# use ggplot to make map.
+ggplot() +
+  geom_point(data= crowdsourced, aes(x= longitude, y= latitude, color = "Crowdsourced")) +
+  geom_point(data= govt, aes(x= longitude, y = latitude, color = "Govt" ))+
+  ggtitle("Crowdsourced and govt sampling methods in Lahore,Pakistan") +
+  scale_color_manual(values = c("Crowdsourced" = "firebrick", "Govt" = "navyblue")) +
+  xlab("Longitude(°)") + 
+  ylab("Latitude(°)") +
+  theme_bw() +
+  theme(text = element_text(family = 'courier')) 
+  
+ 
+```
 
 ### Question 5
 
