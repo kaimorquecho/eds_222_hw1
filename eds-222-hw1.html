@@ -420,22 +420,10 @@ Tip
 <section id="question-5" class="level3">
 <h3 class="anchored" data-anchor-id="question-5">Question 5</h3>
 <p>The local newspaper in Pakistan, <em>Dawn</em>, claims that the government is misreporting the air pollution levels in Lahore. Do the locations of monitors in question 4, relative to crowd-sourced monitors, suggest anything about a possible political bias?</p>
+<p>Yes, the locations of monitors in Q4 support the Dawn’s claims. The distribution of the monitors for the govt sample are clustered together between 74.325 and 74.337° longitude and 31.57° and less than 31.58° latitude. This means the govt sampled a very small, specific area of Lahore, resulting in data that is purposefully under-reporting air pollution by being selective in monitor placement. The sample is not representative of the population (Lahore, Pakistan).</p>
 </section>
 <section id="question-6" class="level3">
 <h3 class="anchored" data-anchor-id="question-6">Question 6</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is for 6.2</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co">#strat data &lt;- pooled_obs %&gt;%</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#mutate(latitude_strata = round(latitude,2)) %&gt;%</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#group_by(latitude_strata)</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co"># we should try to avoid groups just ligering around; you can ungroup </span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co">#then you do slide_sample(200, bc 5 stratta )</span></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co">#or can use cut_width to cut up variables into certain width-sized bins </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <p>Given the recent corruption in air quality reporting, the Prime Minister of Pakistan has hired an independent body of environmental data scientists to create an unbiased estimate of the mean PM 2.5 across Lahore using some combination of both government stations and crowd sourced observations.</p>
 <p>NASA’s satellite data indicates that the average PM across Lahore is 89.2 <span class="math inline">\(\mu g/m^3\)</span>. Since this is the most objective estimate of population-level PM 2.5 available, your goal is to match this mean as closely as possible by creating a new ground-level monitoring sample that draws on both the government and crowd-sourced samples.</p>
 <section id="question-6.1" class="level4">
@@ -454,7 +442,19 @@ Tip
 <p><code>bind_rows()</code> may be helpful.</p>
 </div>
 </div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>pooled_samples <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(crowdsourced, govt) <span class="co"># merging both samples</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>pooled_1000 <span class="ot">&lt;-</span> <span class="fu">sample_n</span>(pooled_samples, <span class="dv">1000</span>) <span class="co"># draw random n=1000 sample</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Second, create a <em>stratified random sample</em>. Do so by (i) stratifying your pooled data-set into strata of 0.01 degrees of latitude, and (ii) randomly sampling 200 air pollution observations from each stratum.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>strat_sample <span class="ot">&lt;-</span> pooled_samples <span class="sc">%&gt;%</span> <span class="co"># stratifying into strata of 0.01 degrees of latitude. </span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lat_strata =</span> <span class="fu">round</span>(latitude, <span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(lat_strata) <span class="co"># note for self: we don't order from min to max before stratifying because we want to take a random sample eventually</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>strat_random_sample <span class="ot">&lt;-</span> strat_sample <span class="sc">%&gt;%</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="question-6.2" class="level4">
 <h4 class="anchored" data-anchor-id="question-6.2">Question 6.2</h4>

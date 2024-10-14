@@ -197,28 +197,17 @@ ggplot() +
   theme_bw() +
   theme(text = element_text(family = 'courier')) 
   
- 
+
 ```
 
 ### Question 5
 
 The local newspaper in Pakistan, *Dawn*, claims that the government is misreporting the air pollution levels in Lahore. Do the locations of monitors in question 4, relative to crowd-sourced monitors, suggest anything about a possible political bias?
 
+Yes, the locations of monitors in Q4 support the Dawn's claims. The distribution of the monitors for the govt sample are clustered together between 74.325 and 74.337° longitude and 31.57° and less than 31.58° latitude. This means the govt sampled a very small, specific area of Lahore, resulting in data that is purposefully under-reporting air pollution by being selective in monitor placement. The sample is not representative of the population (Lahore, Pakistan).
+
+
 ### Question 6
-
-```{r}
-# this is for 6.2
-#strat data <- pooled_obs %>%
-  #mutate(latitude_strata = round(latitude,2)) %>%
-  #group_by(latitude_strata)
-
-# we should try to avoid groups just ligering around; you can ungroup 
-
-#then you do slide_sample(200, bc 5 stratta )
-
-
-#or can use cut_width to cut up variables into certain width-sized bins 
-```
 
 Given the recent corruption in air quality reporting, the Prime Minister of Pakistan has hired an independent body of environmental data scientists to create an unbiased estimate of the mean PM 2.5 across Lahore using some combination of both government stations and crowd sourced observations.
 
@@ -232,7 +221,24 @@ First, generate a *random sample* of size $n=1000$ air pollution records by (i) 
 `bind_rows()` may be helpful.
 :::
 
+```{r}
+pooled_samples <- bind_rows(crowdsourced, govt) # merging both samples
+pooled_1000 <- sample_n(pooled_samples, 1000) # draw random n=1000 sample
+```
+
 Second, create a *stratified random sample*. Do so by (i) stratifying your pooled data-set into strata of 0.01 degrees of latitude, and (ii) randomly sampling 200 air pollution observations from each stratum.
+
+```{r}
+
+strat_sample <- pooled_samples %>% # stratifying into strata of 0.01 degrees of latitude. 
+  mutate(lat_strata = round(latitude, 2)) %>%
+  group_by(lat_strata) # note for self: we don't order from min to max before stratifying because we want to take a random sample eventually
+
+strat_random_sample <- strat_sample %>%
+  slice_sample(n = 200)
+
+```
+
 
 #### Question 6.2
 
