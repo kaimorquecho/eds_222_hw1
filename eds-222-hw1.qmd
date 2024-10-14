@@ -140,12 +140,13 @@ max = 65 $\mu g/m^3$
 ```{r}
 # crowdsourced mean
 #  pipe to df, use summarize function, apply mean() to col "PM"
-crowdsourced %>%
+crowdsourced_mean <- crowdsourced %>%
   summarize(mean(PM), na.rm = TRUE)
 ```
+
 ```{r}
 # govt mean
-govt %>% 
+govt_mean <- govt %>% 
   summarize(mean(PM), na.rm = TRUE) 
 ```
 
@@ -181,6 +182,7 @@ Use the location of the air pollution stations for both of the sampling strategi
 `longitude` indicates location in the *x*-direction, while `latitude` indicates location in the *y*-direction. With `ggplot2` this should be nothing fancy. We'll do more spatial data in `R` later in the course.
 :::
 
+#### __Code:__
 
 ```{r}
 # load ggplot library
@@ -221,12 +223,16 @@ First, generate a *random sample* of size $n=1000$ air pollution records by (i) 
 `bind_rows()` may be helpful.
 :::
 
+#### __Code:__
+
 ```{r}
 pooled_samples <- bind_rows(crowdsourced, govt) # merging both samples
 pooled_1000 <- sample_n(pooled_samples, 1000) # draw random n=1000 sample
 ```
 
 Second, create a *stratified random sample*. Do so by (i) stratifying your pooled data-set into strata of 0.01 degrees of latitude, and (ii) randomly sampling 200 air pollution observations from each stratum.
+
+#### __Code:__
 
 ```{r}
 
@@ -235,11 +241,41 @@ strat_sample <- pooled_samples %>% # stratifying into strata of 0.01 degrees of 
   group_by(lat_strata) # note for self: we don't order from min to max before stratifying because we want to take a random sample eventually
 
 strat_random_sample <- strat_sample %>%
-  slice_sample(n = 200)
+  slice_sample(n = 200) # take the random sample of 200 obs from each stratum
 
 ```
-
 
 #### Question 6.2
 
 Compare estimated means of PM 2.5 for each sampling strategy to the NASA estimate of 89.2 $\mu g/m^3$. Which sample seems to match the satellite data best? What would you recommend the Prime Minister do? Does your proposed sampling strategy rely more on government or on crowd-sourced data? Why might that be the case?
+
+The crowdsourced sample matches the satelite data best at 70.2  $\mu g/m^3$. This makes sense given that the sample is the closest to a random, representative sample out of all the samples taken. 
+
+However, even though it is the closest, it is still biased as discussed earlier. I would recommend to the Prime Minister that govt data be used to calculate the best estimate of $\mu g/m^3$, but with the condition that monitors be distributed all over Lahore, not only where convinient. While it would be good to gather crowdsourced data, there will always be a concern for self-selection bias, unless there be a significant financial investment to subsidize any cost for all homes to have a monitor or to create the socio-economic and geographic conditions in Lahore so that crowdsourced monitoring can be representative of the entire population. 
+
+There are also issues in relying on govt data due to the possibility of corruption, but there are strategies that can be implemented to mitigate this risk at a lower cost than the alternative. I would recommend that a civilian task-force be created to supervise the placement of monitors by govt officials. I'd recommend that the distribution and amount of monitors be proportional to the population size of each district in Lahore.
+
+
+
+#### __Code:__
+
+```{r}
+# calculate the mean for stratified random sample and for the pooled n = 1000 sample since I haa not calculated those 
+strat_mean <- strat_random_sample %>%
+  ungroup() %>%
+  summarize(mean(PM)) %>%
+  print()
+
+pooled_1000_mean <- pooled_1000 %>%
+  summarize(mean(PM)) %>%
+  print()
+
+# print previously calculated mean for the original crowdsourced and govt samples
+
+print(crowdsourced_mean)
+
+print(govt_mean)
+
+```
+
+
