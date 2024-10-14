@@ -301,10 +301,10 @@ Tip
 <li>These samples were not randomly collected from across locations in Lahore. Given the sampling approaches described above, discuss possible biases that may enter when we use these samples to construct estimates of population parameters.</li>
 </ol>
 <p>The sampling methods introduce several sampling biases. The samples are not be representative of the population.</p>
-<ol type="1">
-<li><p>Self-selection bias. The crowdsourced data sample comes from homes who have selected to participate in monitoring air pollution by having a monitor in their home. Therefore, the sample of participants likely has very specific characteristics - perhaps the monitor requires wifi connection, or it requires the household to have a computer. As a result, the data will come from areas of Lahore where people can afford to have wifi or a computer or electricity. Rural areas will most likely be misrepresented. The population will not be represented by the sample.</p></li>
-<li><p>Exclusion bias. Given that government officials have been observed to place monitors stratigically in areas with cleaner air to obtain more favorable data, significant portions of the population are being excluded. Areas where air is “dirtier” are being excluded from the sample and therefore misrepresenting the population.</p></li>
-</ol>
+<ul>
+<li><p>Self-selection bias. The crowdsourced data sample comes from homes who have chosen to participate in monitoring pollution by having a monitor at their home. There may be technological requirements such as access to wifi, a computer, or electricity, or some members of the population may simple be unaware of the fact that data is being gathered and they can participate. Thus, the sample will not be representative of the entire population.</p></li>
+<li><p>Exclusion bias. Given that government officials have been observed to place monitors stratigically in “cleaner” areas to obtain more favorable data, significant portions of the population are being excluded. Areas where air is “dirtier” are being excluded from the sample and therefore misrepresenting the population.</p></li>
+</ul>
 </section>
 <section id="question-3" class="level3">
 <h3 class="anchored" data-anchor-id="question-3">Question 3</h3>
@@ -393,11 +393,12 @@ Tip
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span> crowdsourced, <span class="fu">aes</span>(<span class="at">x=</span> longitude, <span class="at">y=</span> latitude, <span class="at">color =</span> <span class="st">"Crowdsourced"</span>)) <span class="sc">+</span></span>
 <span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span> govt, <span class="fu">aes</span>(<span class="at">x=</span> longitude, <span class="at">y =</span> latitude, <span class="at">color =</span> <span class="st">"Govt"</span> ))<span class="sc">+</span></span>
 <span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Crowdsourced and govt sampling methods in Lahore,Pakistan"</span>) <span class="sc">+</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Crowdsourced"</span> <span class="ot">=</span> <span class="st">"firebrick"</span>, <span class="st">"Govt"</span> <span class="ot">=</span> <span class="st">"navyblue"</span>)) <span class="sc">+</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Longitude(°)"</span>) <span class="sc">+</span> </span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Crowdsourced"</span> <span class="ot">=</span> <span class="st">"firebrick"</span>, <span class="st">"Govt"</span> <span class="ot">=</span> <span class="st">"navyblue"</span>)) <span class="sc">+</span> <span class="co"># having text = color                                                                         # legend is automatically added to plot</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Longitude(°)"</span>) <span class="sc">+</span> <span class="co"># rename legend labels</span></span>
 <span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Latitude(°)"</span>) <span class="sc">+</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">family =</span> <span class="st">'courier'</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="co"># remove default gray bw</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">family =</span> <span class="st">'courier'</span>)) <span class="sc">+</span> <span class="co"># change font</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title=</span><span class="fu">element_blank</span>()) <span class="co"># remove legend title </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -411,7 +412,7 @@ Tip
 <section id="question-5" class="level3">
 <h3 class="anchored" data-anchor-id="question-5">Question 5</h3>
 <p>The local newspaper in Pakistan, <em>Dawn</em>, claims that the government is misreporting the air pollution levels in Lahore. Do the locations of monitors in question 4, relative to crowd-sourced monitors, suggest anything about a possible political bias?</p>
-<p>Yes, the locations of monitors in Q4 support the Dawn’s claims. The distribution of the monitors for the govt sample are clustered together between 74.325 and 74.337° longitude and 31.57° and less than 31.58° latitude. This means the govt sampled a very small, specific area of Lahore, resulting in data that is purposefully under-reporting air pollution by being selective in monitor placement. The sample is not representative of the population (Lahore, Pakistan).</p>
+<p>Yes, the locations of monitors in Q4 support the Dawn’s claims. The distribution of the monitors for the govt sample are clustered together within 74.325 and 74.337° longitude and 31.57° and less than 31.58° latitude. This means the govt sampled a very small, specific area of Lahore, resulting in data that is purposefully under-reporting pollution by being selective in monitor placement. The area may have less pollution / more favorable air conditions because it is a residential, rural, or other-wise non-industrial neighborhood. Regardless of why the area sampled with the monitors had a lower pollution average, the sample is not representative of the population (Lahore, Pakistan) and it could be indicative of political bias. The area could be within a district or town where a seat or position in gov is up for reelection, or simply to upkeep the reputation of that district’s administration. Or it could be for international/national political purposes; reporting decent pollution conditions to international authorities or national authorities would mean not having to implement abatement methods, place restrictions on permitted activities or setting caps on pollution, etc.,.</p>
 </section>
 <section id="question-6" class="level3">
 <h3 class="anchored" data-anchor-id="question-6">Question 6</h3>
@@ -447,18 +448,18 @@ Tip
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>strat_sample <span class="ot">&lt;-</span> pooled_samples <span class="sc">%&gt;%</span> <span class="co"># stratifying into strata of 0.01 degrees of latitude. </span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lat_strata =</span> <span class="fu">round</span>(latitude, <span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(lat_strata) <span class="co"># note for self: we don't order from min to max before stratifying because we want to take a random sample eventually</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>strat_random_sample <span class="ot">&lt;-</span> strat_sample <span class="sc">%&gt;%</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">200</span>) <span class="co"># take the random sample of 200 obs from each stratum</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(lat_strata) <span class="co"># note to self: we don't order from min to max before stratifying because we want to take </span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># a random sample eventually</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>strat_random_sample <span class="ot">&lt;-</span> strat_sample <span class="sc">%&gt;%</span> </span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">200</span>) <span class="co"># take the random sample of 200 obs from each stratum</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co"># note to self: the sample is still grouped here in line 243 so slice_sample will know to take 200 from each group and it will be random because other than being in strata, our data is randomly ordered / not from min to max</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="question-6.2" class="level4">
 <h4 class="anchored" data-anchor-id="question-6.2">Question 6.2</h4>
 <p>Compare estimated means of PM 2.5 for each sampling strategy to the NASA estimate of 89.2 <span class="math inline">\(\mu g/m^3\)</span>. Which sample seems to match the satellite data best? What would you recommend the Prime Minister do? Does your proposed sampling strategy rely more on government or on crowd-sourced data? Why might that be the case?</p>
-<p>The crowdsourced sample matches the satelite data best at 70.2 <span class="math inline">\(\mu g/m^3\)</span>. This makes sense given that the sample is the closest to a random, representative sample out of all the samples taken.</p>
-<p>However, even though it is the closest, it is still biased as discussed earlier. I would recommend to the Prime Minister that govt data be used to calculate the best estimate of <span class="math inline">\(\mu g/m^3\)</span>, but with the condition that monitors be distributed all over Lahore, not only where convinient. While it would be good to gather crowdsourced data, there will always be a concern for self-selection bias, unless there be a significant financial investment to subsidize any cost for all homes to have a monitor or to create the socio-economic and geographic conditions in Lahore so that crowdsourced monitoring can be representative of the entire population.</p>
-<p>There are also issues in relying on govt data due to the possibility of corruption, but there are strategies that can be implemented to mitigate this risk at a lower cost than the alternative. I would recommend that a civilian task-force be created to supervise the placement of monitors by govt officials. I’d recommend that the distribution and amount of monitors be proportional to the population size of each district in Lahore.</p>
 </section>
 <section id="code-7" class="level4">
 <h4 class="anchored" data-anchor-id="code-7"><strong>Code:</strong></h4>
@@ -472,7 +473,7 @@ Tip
 <pre><code># A tibble: 1 × 1
   `mean(PM)`
        &lt;dbl&gt;
-1       68.2</code></pre>
+1       66.7</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>pooled_1000_mean <span class="ot">&lt;-</span> pooled_1000 <span class="sc">%&gt;%</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(PM)) <span class="sc">%&gt;%</span></span>
@@ -481,7 +482,7 @@ Tip
 <pre><code># A tibble: 1 × 1
   `mean(PM)`
        &lt;dbl&gt;
-1       62.2</code></pre>
+1       62.4</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># print previously calculated mean for the original crowdsourced and govt samples</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -500,6 +501,10 @@ Tip
 1       39.6 TRUE </code></pre>
 </div>
 </div>
+<p>The crowdsourced sample matches the satelite data best at 70.2 <span class="math inline">\(\mu g/m^3\)</span>. This makes sense given that the we know the sample is not purposefully under-reporting pollution conditions and it has not been pooled yet with the govt data, it has not been skewed by misleading obs.</p>
+<p>However, even though it is the closest, it is still biased as discussed earlier. I would recommend to the Prime Minister that govt data be used to calculate the best estimate of <span class="math inline">\(\mu g/m^3\)</span>, but with the condition that monitors be distributed all over Lahore, not only where convinient.</p>
+<p>There big issues in relying on govt data due corruption, but there may be strategies that can be implemented to mitigate this risk at a lower cost than the crowdsourcing alternative. I would recommend that a civilian task-force be created to supervise the placement of monitors by govt officials. I’d recommend that the distribution and amount of monitors be proportional to the population size of each district in Lahore.</p>
+<p>While it would be good to gather crowdsourced data, there will always be a concern for self-selection bias unless there be a significant financial investment to subsidize the cost (assuming there is one) for all homes to have a monitor, incentivize others to participate in data gathering,or bridge geographic and technological barriers all across Lahore.</p>
 </section>
 </section>
 </section>

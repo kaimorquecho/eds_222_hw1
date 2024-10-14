@@ -111,9 +111,9 @@ There are two samples - One sample are the households in Lahore who have volunte
 
 The sampling methods introduce several sampling biases. The samples are not be representative of the population. 
 
-1) Self-selection bias. The crowdsourced data sample comes from homes who have selected to participate in monitoring air pollution by having a monitor in their home. Therefore, the sample of participants likely has very specific characteristics - perhaps the monitor requires wifi connection, or it requires the household to have a computer. As a result, the data will come from areas of Lahore where people can afford to have wifi or a computer or electricity. Rural areas will most likely be misrepresented. The population will not be represented by the sample. 
+- Self-selection bias. The crowdsourced data sample comes from homes who have chosen to participate in monitoring pollution by having a monitor at their home. There may be technological requirements such as access to wifi, a computer, or electricity, or some members of the population may simple be unaware of the fact that data is being gathered and they can participate. Thus, the sample will not be representative of the entire population.
 
-2) Exclusion bias. Given that government officials have been observed to place monitors stratigically in areas with cleaner air to obtain more favorable data, significant portions of the population are being excluded. Areas where air is "dirtier" are being excluded from the sample and therefore misrepresenting the population. 
+- Exclusion bias. Given that government officials have been observed to place monitors stratigically in "cleaner" areas to obtain more favorable data, significant portions of the population are being excluded. Areas where air is "dirtier" are being excluded from the sample and therefore misrepresenting the population. 
 
 ### Question 3
 
@@ -193,11 +193,12 @@ ggplot() +
   geom_point(data= crowdsourced, aes(x= longitude, y= latitude, color = "Crowdsourced")) +
   geom_point(data= govt, aes(x= longitude, y = latitude, color = "Govt" ))+
   ggtitle("Crowdsourced and govt sampling methods in Lahore,Pakistan") +
-  scale_color_manual(values = c("Crowdsourced" = "firebrick", "Govt" = "navyblue")) +
-  xlab("Longitude(°)") + 
+  scale_color_manual(values = c("Crowdsourced" = "firebrick", "Govt" = "navyblue")) + # having text = color                                                                         # legend is automatically added to plot
+  xlab("Longitude(°)") + # rename legend labels
   ylab("Latitude(°)") +
-  theme_bw() +
-  theme(text = element_text(family = 'courier')) 
+  theme_bw() + # remove default gray bw
+  theme(text = element_text(family = 'courier')) + # change font
+  theme(legend.title=element_blank()) # remove legend title 
   
 
 ```
@@ -206,7 +207,7 @@ ggplot() +
 
 The local newspaper in Pakistan, *Dawn*, claims that the government is misreporting the air pollution levels in Lahore. Do the locations of monitors in question 4, relative to crowd-sourced monitors, suggest anything about a possible political bias?
 
-Yes, the locations of monitors in Q4 support the Dawn's claims. The distribution of the monitors for the govt sample are clustered together between 74.325 and 74.337° longitude and 31.57° and less than 31.58° latitude. This means the govt sampled a very small, specific area of Lahore, resulting in data that is purposefully under-reporting air pollution by being selective in monitor placement. The sample is not representative of the population (Lahore, Pakistan).
+Yes, the locations of monitors in Q4 support the Dawn's claims. The distribution of the monitors for the govt sample are clustered together within 74.325 and 74.337° longitude and 31.57° and less than 31.58° latitude. This means the govt sampled a very small, specific area of Lahore, resulting in data that is purposefully under-reporting pollution by being selective in monitor placement. The area may have less pollution / more favorable air conditions because it is a residential, rural, or other-wise non-industrial neighborhood. Regardless of why the area sampled with the monitors had a lower pollution average, the sample is not representative of the population (Lahore, Pakistan) and it could be indicative of political bias. The area could be within a district or town where a seat or position in gov is up for reelection, or simply to upkeep the reputation of that district's administration. Or it could be for international/national political purposes; reporting decent pollution conditions to international authorities or national authorities would mean not having to implement abatement methods, place restrictions on permitted activities or setting caps on pollution, etc.,. 
 
 
 ### Question 6
@@ -238,24 +239,19 @@ Second, create a *stratified random sample*. Do so by (i) stratifying your poole
 
 strat_sample <- pooled_samples %>% # stratifying into strata of 0.01 degrees of latitude. 
   mutate(lat_strata = round(latitude, 2)) %>%
-  group_by(lat_strata) # note for self: we don't order from min to max before stratifying because we want to take a random sample eventually
+  group_by(lat_strata) # note to self: we don't order from min to max before stratifying because we want to take 
+                       # a random sample eventually
 
-strat_random_sample <- strat_sample %>%
+strat_random_sample <- strat_sample %>% 
   slice_sample(n = 200) # take the random sample of 200 obs from each stratum
+
+# note to self: the sample is still grouped here in line 243 so slice_sample will know to take 200 from each group and it will be random because other than being in strata, our data is randomly ordered / not from min to max
 
 ```
 
 #### Question 6.2
 
 Compare estimated means of PM 2.5 for each sampling strategy to the NASA estimate of 89.2 $\mu g/m^3$. Which sample seems to match the satellite data best? What would you recommend the Prime Minister do? Does your proposed sampling strategy rely more on government or on crowd-sourced data? Why might that be the case?
-
-The crowdsourced sample matches the satelite data best at 70.2  $\mu g/m^3$. This makes sense given that the sample is the closest to a random, representative sample out of all the samples taken. 
-
-However, even though it is the closest, it is still biased as discussed earlier. I would recommend to the Prime Minister that govt data be used to calculate the best estimate of $\mu g/m^3$, but with the condition that monitors be distributed all over Lahore, not only where convinient. While it would be good to gather crowdsourced data, there will always be a concern for self-selection bias, unless there be a significant financial investment to subsidize any cost for all homes to have a monitor or to create the socio-economic and geographic conditions in Lahore so that crowdsourced monitoring can be representative of the entire population. 
-
-There are also issues in relying on govt data due to the possibility of corruption, but there are strategies that can be implemented to mitigate this risk at a lower cost than the alternative. I would recommend that a civilian task-force be created to supervise the placement of monitors by govt officials. I'd recommend that the distribution and amount of monitors be proportional to the population size of each district in Lahore.
-
-
 
 #### __Code:__
 
@@ -278,4 +274,11 @@ print(govt_mean)
 
 ```
 
+The crowdsourced sample matches the satelite data best at 70.2  $\mu g/m^3$. This makes sense given that the we know the sample is not purposefully under-reporting pollution conditions and it has not been pooled yet with the govt data, it has not been skewed by misleading obs. 
+
+However, even though it is the closest, it is still biased as discussed earlier. I would recommend to the Prime Minister that govt data be used to calculate the best estimate of $\mu g/m^3$, but with the condition that monitors be distributed all over Lahore, not only where convinient. 
+
+There big issues in relying on govt data due corruption, but there may be strategies that can be implemented to mitigate this risk at a lower cost than the crowdsourcing alternative. I would recommend that a civilian task-force be created to supervise the placement of monitors by govt officials. I'd recommend that the distribution and amount of monitors be proportional to the population size of each district in Lahore. 
+
+While it would be good to gather crowdsourced data, there will always be a concern for self-selection bias unless there be a significant financial investment to subsidize the cost (assuming there is one) for all homes to have a monitor, incentivize others to participate in data gathering,or bridge geographic and technological barriers all across Lahore. 
 
