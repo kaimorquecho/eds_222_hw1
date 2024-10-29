@@ -101,11 +101,11 @@ The goal of pollution monitoring in Lahore is to measure the average pollution c
 
 1.  What is the *population* in this setting? Please be precise.
 
-The population is the city of Lahore, Pakistan.
+The population is the city of Lahore, Pakistan between early Nov 2018 and late Nov 2019.
 
 2.  What are the *samples* in this setting? Please be precise.
 
-There are two samples - One sample are the households in Lahore who have volunteered to install a monitor in their home, and the other is the locations in Lahore that the government has chosen to place monitors at. 
+There are two samples - One sample are the households in Lahore who have volunteered to install a monitor in their home between early Nov 2018 and late Nov 2019, and the other is the locations in Lahore that the government has chosen to place monitors at, between early Nov 2018 and late Nov 2019.
 
 3.  These samples were not randomly collected from across locations in Lahore. Given the sampling approaches described above, discuss possible biases that may enter when we use these samples to construct estimates of population parameters.
 
@@ -229,6 +229,10 @@ First, generate a *random sample* of size $n=1000$ air pollution records by (i) 
 ```{r}
 pooled_samples <- bind_rows(crowdsourced, govt) # merging both samples
 pooled_1000 <- sample_n(pooled_samples, 1000) # draw random n=1000 sample
+
+
+str(pooled_1000) # dataset dimensions 
+
 ```
 
 Second, create a *stratified random sample*. Do so by (i) stratifying your pooled data-set into strata of 0.01 degrees of latitude, and (ii) randomly sampling 200 air pollution observations from each stratum.
@@ -245,6 +249,8 @@ strat_sample <- pooled_samples %>% # stratifying into strata of 0.01 degrees of 
 strat_random_sample <- strat_sample %>% 
   slice_sample(n = 200) # take the random sample of 200 obs from each stratum
 
+str(strat_random_sample) # dataset dimensions
+
 # note to self: the sample is still grouped here in line 243 so slice_sample will know to take 200 from each group and it will be random because other than being in strata, our data is randomly ordered / not from min to max
 
 ```
@@ -256,7 +262,7 @@ Compare estimated means of PM 2.5 for each sampling strategy to the NASA estimat
 #### __Code:__
 
 ```{r}
-# calculate the mean for stratified random sample and for the pooled n = 1000 sample since I haa not calculated those 
+# calculate the mean for stratified random sample and for the pooled n = 1000 sample since I had not calculated those 
 strat_mean <- strat_random_sample %>%
   ungroup() %>%
   summarize(mean(PM)) %>%
@@ -266,17 +272,11 @@ pooled_1000_mean <- pooled_1000 %>%
   summarize(mean(PM)) %>%
   print()
 
-# print previously calculated mean for the original crowdsourced and govt samples
-
-print(crowdsourced_mean)
-
-print(govt_mean)
-
 ```
 
-The crowdsourced sample matches the satelite data best at 70.2  $\mu g/m^3$. This makes sense given that the we know the sample is not purposefully under-reporting pollution conditions and it has not been pooled yet with the govt data, it has not been skewed by misleading obs. 
+The stratified random sample matches the satelite data best at 67.491 $\mu g/m^3$. This sample contains a more representative collection of observations because it pulls from both the govt data and the crowdsourced data, but using strata. Stratifying the sample and taking 200 obs from each strata ensures that the sample is representative of PM 2.5 concentrations at every latitude subgroup, a level of precision that cannot be achieved by simply taking a random  n = 1000 sample of the pooled govt and crowdsourced observations. The crowdsourced data will still be relied upon more than the govt data, because crowdsourced obs make up the majority of the obs in the pooled sample, but stratifying makes our sample more representative of the population despite this disproportion in obs. 
 
-However, even though it is the closest, it is still biased as discussed earlier. I would recommend to the Prime Minister that govt data be used to calculate the best estimate of $\mu g/m^3$, but with the condition that monitors be distributed all over Lahore, not only where convinient. 
+I would recommend to the Prime Minister that govt data be used to calculate the best estimate of $\mu g/m^3$, but with the condition that monitors be distributed all over Lahore, not only where convinient. 
 
 There big issues in relying on govt data due corruption, but there may be strategies that can be implemented to mitigate this risk at a lower cost than the crowdsourcing alternative. I would recommend that a civilian task-force be created to supervise the placement of monitors by govt officials. I'd recommend that the distribution and amount of monitors be proportional to the population size of each district in Lahore. 
 
